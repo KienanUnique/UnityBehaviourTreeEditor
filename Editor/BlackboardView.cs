@@ -7,9 +7,9 @@ using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace TheKiwiCoder {
+    public class BlackboardView : VisualElement {
 
-    [UxmlElement]
-    public partial class BlackboardView : VisualElement {
+        public new class UxmlFactory : UxmlFactory<BlackboardView, VisualElement.UxmlTraits> { }
 
         private SerializedBehaviourTree behaviourTree;
 

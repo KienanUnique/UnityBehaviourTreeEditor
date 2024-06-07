@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 namespace TheKiwiCoder {
-
-    [UxmlElement]
-    public partial class SplitView : TwoPaneSplitView {
-        
+    public class SplitView : TwoPaneSplitView {
+        public new class UxmlFactory : UxmlFactory<SplitView, TwoPaneSplitView.UxmlTraits> { }
     }
 }

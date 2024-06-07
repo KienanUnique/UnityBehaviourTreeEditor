@@ -7,9 +7,8 @@ using UnityEditor;
 using UnityEditor.UIElements;
 
 namespace TheKiwiCoder {
-
-    [UxmlElement]
-    public partial class InspectorView : VisualElement {
+    public class InspectorView : VisualElement {
+        public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> { }
 
         public InspectorView() {
 

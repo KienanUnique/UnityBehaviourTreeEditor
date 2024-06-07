@@ -5,9 +5,8 @@ using UnityEditor;
 using System;
 
 namespace TheKiwiCoder {
-
-    [UxmlElement]
-    public partial class OverlayView : VisualElement {
+    public class OverlayView : VisualElement {
+        public new class UxmlFactory : UxmlFactory<OverlayView, UxmlTraits> { }
 
         public Action<BehaviourTree> OnTreeSelected;
 
