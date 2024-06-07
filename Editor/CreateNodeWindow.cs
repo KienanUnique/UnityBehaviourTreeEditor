@@ -29,6 +29,9 @@ namespace TheKiwiCoder
                 var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
                 foreach (var type in types)
                 {
+                    if(type.IsAbstract)
+                        continue;
+                    
                     Action invoke = () => CreateNode(type, context);
                     tree.Add(new SearchTreeEntry(new GUIContent($"{type.Name}")) {level = 2, userData = invoke});
                 }

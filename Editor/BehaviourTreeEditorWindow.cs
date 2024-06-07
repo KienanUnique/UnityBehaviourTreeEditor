@@ -134,7 +134,7 @@ namespace TheKiwiCoder
             }
         }
 
-        [MenuItem("TheKiwiCoder/BehaviourTreeEditor ...")]
+        [MenuItem("BehaviourTree/BehaviourTreeEditor ...")]
         public static void OpenWindow()
         {
             var wnd = GetWindow<BehaviourTreeEditorWindow>();
