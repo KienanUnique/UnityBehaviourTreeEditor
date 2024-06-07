@@ -1,22 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-namespace TheKiwiCoder {
-    [System.Serializable]
-    public class Inverter : DecoratorNode {
-        protected override void OnStart() {
+namespace TheKiwiCoder
+{
+    [Serializable]
+    public class Inverter : DecoratorNode
+    {
+        protected override void OnStart()
+        {
         }
 
-        protected override void OnStop() {
+        protected override void OnStop()
+        {
         }
 
-        protected override State OnUpdate() {
-            if (child == null) {
-                return State.Failure;
-            }
+        protected override State OnUpdate()
+        {
+            if (child == null) return State.Failure;
 
-            switch (child.Update()) {
+            switch (child.Update())
+            {
                 case State.Running:
                     return State.Running;
                 case State.Failure:
@@ -24,6 +26,7 @@ namespace TheKiwiCoder {
                 case State.Success:
                     return State.Failure;
             }
+
             return State.Failure;
         }
     }

@@ -1,24 +1,27 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor;
-using System;
 
-namespace TheKiwiCoder {
-    public class OverlayView : VisualElement {
-        public new class UxmlFactory : UxmlFactory<OverlayView, UxmlTraits> { }
+namespace TheKiwiCoder
+{
+    public class OverlayView : VisualElement
+    {
+        private List<string> assetPaths;
+
+        private Button createButton;
+        private VisualElement listViewContainer;
+
+        private readonly string NameColumn = "Name";
 
         public Action<BehaviourTree> OnTreeSelected;
+        private readonly string PathColumn = "Path";
+        private MultiColumnListView projectListView;
 
-        Button createButton;
-        VisualElement listViewContainer;
-        MultiColumnListView projectListView;
-
-        string NameColumn = "Name";
-        string PathColumn = "Path";
-        List<string> assetPaths;
-
-        Column CreateColumn(string name) {
+        private Column CreateColumn(string name)
+        {
             var column = new Column();
             column.name = name;
             column.title = name;
@@ -27,8 +30,8 @@ namespace TheKiwiCoder {
             return column;
         }
 
-        MultiColumnListView CreateListView() {
-
+        private MultiColumnListView CreateListView()
+        {
             var listView = new MultiColumnListView();
             listView.showBorder = true;
             listView.showAlternatingRowBackgrounds = AlternatingRowBackground.ContentOnly;
@@ -50,20 +53,23 @@ namespace TheKiwiCoder {
             return listView;
         }
 
-        private void BindName(VisualElement element, int index) {
-            Label label = element as Label;
+        private void BindName(VisualElement element, int index)
+        {
+            var label = element as Label;
             label.style.unityTextAlign = TextAnchor.MiddleLeft;
-            var fileName = System.IO.Path.GetFileNameWithoutExtension(assetPaths[index]);
+            var fileName = Path.GetFileNameWithoutExtension(assetPaths[index]);
             label.text = fileName;
         }
 
-        private void BindPath(VisualElement element, int index) {
-            Label label = element as Label;
+        private void BindPath(VisualElement element, int index)
+        {
+            var label = element as Label;
             label.style.unityTextAlign = TextAnchor.MiddleLeft;
             label.text = assetPaths[index];
         }
 
-        public void Show() {
+        public void Show()
+        {
             // Hidden in UIBuilder while editing..
             style.visibility = Visibility.Visible;
 
@@ -85,58 +91,71 @@ namespace TheKiwiCoder {
             projectListView.selectionChanged += OnSelectionChanged;
         }
 
-        private void OnSelectionChanged(IEnumerable<object> obj) {
+        private void OnSelectionChanged(IEnumerable<object> obj)
+        {
             OnOpenAsset();
         }
 
-        public void Hide() {
+        public void Hide()
+        {
             style.visibility = Visibility.Hidden;
         }
 
-        public string ToMenuFormat(string one) {
+        public string ToMenuFormat(string one)
+        {
             // Using the slash creates submenus...
             return one.Replace("/", "|");
         }
 
-        public string ToAssetFormat(string one) {
+        public string ToAssetFormat(string one)
+        {
             // Using the slash creates submenus...
             return one.Replace("|", "/");
         }
 
-        void OnOpenAsset() {
+        private void OnOpenAsset()
+        {
             var path = assetPaths[projectListView.selectedIndex];
 
-            BehaviourTree tree = AssetDatabase.LoadAssetAtPath<BehaviourTree>(path);
-            if (tree) {
+            var tree = AssetDatabase.LoadAssetAtPath<BehaviourTree>(path);
+            if (tree)
+            {
                 TreeSelected(tree);
                 style.visibility = Visibility.Hidden;
             }
         }
 
-        void OnCreateAsset() {
+        private void OnCreateAsset()
+        {
             var settings = BehaviourTreeEditorWindow.Instance.settings;
 
-            string savePath = UnityEditor.EditorUtility.SaveFilePanel("Create New", settings.newTreePath, "New Behavior Tree", "asset");
-            if (string.IsNullOrEmpty(savePath)) {
-                return;
-            }
+            var savePath =
+                UnityEditor.EditorUtility.SaveFilePanel("Create New", settings.newTreePath, "New Behavior Tree",
+                    "asset");
+            if (string.IsNullOrEmpty(savePath)) return;
 
-            string name = System.IO.Path.GetFileNameWithoutExtension(savePath);
-            string folder = System.IO.Path.GetDirectoryName(savePath);
+            var name = Path.GetFileNameWithoutExtension(savePath);
+            var folder = Path.GetDirectoryName(savePath);
             folder = folder.Substring(folder.IndexOf("Assets"));
 
             //System.IO.Directory.CreateDirectory(folder);
-            BehaviourTree tree = EditorUtility.CreateNewTree(name, folder);
+            var tree = EditorUtility.CreateNewTree(name, folder);
 
 
-            if (tree) {
+            if (tree)
+            {
                 TreeSelected(tree);
                 style.visibility = Visibility.Hidden;
             }
         }
 
-        void TreeSelected(BehaviourTree tree) {
+        private void TreeSelected(BehaviourTree tree)
+        {
             OnTreeSelected.Invoke(tree);
+        }
+
+        public new class UxmlFactory : UxmlFactory<OverlayView, UxmlTraits>
+        {
         }
     }
 }
