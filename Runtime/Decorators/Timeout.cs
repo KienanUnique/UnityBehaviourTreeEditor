@@ -20,11 +20,11 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
-            if (child == null) return State.Failure;
+            if (child == null) return ENodeState.Failure;
 
-            if (Time.time - startTime > duration) return State.Failure;
+            if (Time.time - startTime > duration) return ENodeState.Failure;
 
             return child.Update();
         }

@@ -24,13 +24,13 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var pos = new Vector3();
             pos.x = Random.Range(min.x, max.x);
             pos.y = Random.Range(min.y, max.y);
             result.Value = pos;
-            return State.Success;
+            return ENodeState.Success;
         }
     }
 }

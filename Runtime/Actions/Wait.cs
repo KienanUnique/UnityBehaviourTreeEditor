@@ -20,11 +20,11 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var timeRemaining = Time.time - startTime;
-            if (timeRemaining > duration) return State.Success;
-            return State.Running;
+            if (timeRemaining > duration) return ENodeState.Success;
+            return ENodeState.Running;
         }
     }
 }

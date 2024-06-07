@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TheKiwiCoder.Context;
 using UnityEngine;
 
 namespace TheKiwiCoder
@@ -11,7 +12,7 @@ namespace TheKiwiCoder
 
         [SerializeReference] public List<Node> nodes = new();
 
-        public Node.State treeState = Node.State.Running;
+        public Node.ENodeState treeState = Node.ENodeState.Running;
 
         public Blackboard blackboard = new();
 
@@ -31,9 +32,9 @@ namespace TheKiwiCoder
             });
         }
 
-        public Node.State Update()
+        public Node.ENodeState Update()
         {
-            if (treeState == Node.State.Running) treeState = rootNode.Update();
+            if (treeState == Node.ENodeState.Running) treeState = rootNode.Update();
             return treeState;
         }
 
@@ -66,13 +67,13 @@ namespace TheKiwiCoder
             return tree;
         }
 
-        public void Bind(Context context)
+        public void Bind(IContext context)
         {
             Traverse(rootNode, node =>
             {
                 node.context = context;
                 node.blackboard = blackboard;
-                node.OnInit();
+                node.OnInitialize();
             });
         }
 

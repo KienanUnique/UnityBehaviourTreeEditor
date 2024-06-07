@@ -15,11 +15,11 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             pair.WriteValue();
 
-            return State.Success;
+            return ENodeState.Success;
         }
     }
 }

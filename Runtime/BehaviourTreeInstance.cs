@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using TheKiwiCoder.Context;
 using UnityEngine;
 
 namespace TheKiwiCoder
 {
-    [AddComponentMenu("TheKiwiCoder/BehaviourTreeInstance")]
-    public class BehaviourTreeInstance : MonoBehaviour
+    public abstract class BehaviourTreeInstance : MonoBehaviour
     {
         // The main behaviour tree asset
         [Tooltip("BehaviourTree asset to instantiate during Awake")]
@@ -18,18 +18,11 @@ namespace TheKiwiCoder
         public List<BlackboardKeyValuePair> blackboardOverrides = new();
 
         // Storage container object to hold game object subsystems
-        private Context context;
+        private IContext context;
         private BehaviourTree runtimeTree;
 
-        public BehaviourTree RuntimeTree
-        {
-            get
-            {
-                if (runtimeTree != null)
-                    return runtimeTree;
-                return behaviourTree;
-            }
-        }
+        public BehaviourTree RuntimeTree => runtimeTree != null ? runtimeTree : behaviourTree;
+        protected abstract IContextFactory Factory { get; }
 
         // Update is called once per frame
         private void Update()
@@ -78,10 +71,7 @@ namespace TheKiwiCoder
             }
         }
 
-        private Context CreateBehaviourTreeContext()
-        {
-            return Context.CreateFromGameObject(gameObject);
-        }
+        private IContext CreateBehaviourTreeContext() => Factory.Create(gameObject);
 
         private bool ValidateTree()
         {

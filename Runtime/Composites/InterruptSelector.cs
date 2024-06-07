@@ -5,13 +5,13 @@ namespace TheKiwiCoder
     [Serializable]
     public class InterruptSelector : Selector
     {
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var previous = current;
             base.OnStart();
             var status = base.OnUpdate();
             if (previous != current)
-                if (children[previous].state == State.Running)
+                if (children[previous].state == ENodeState.Running)
                     children[previous].Abort();
 
             return status;

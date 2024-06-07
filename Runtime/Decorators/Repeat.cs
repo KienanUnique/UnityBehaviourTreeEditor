@@ -26,41 +26,41 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
-            if (child == null) return State.Failure;
+            if (child == null) return ENodeState.Failure;
 
             switch (child.Update())
             {
-                case State.Running:
+                case ENodeState.Running:
                     break;
-                case State.Failure:
+                case ENodeState.Failure:
                     if (restartOnFailure)
                     {
                         iterationCount++;
                         if (iterationCount >= maxRepeats && maxRepeats > 0)
-                            return State.Failure;
-                        return State.Running;
+                            return ENodeState.Failure;
+                        return ENodeState.Running;
                     }
                     else
                     {
-                        return State.Failure;
+                        return ENodeState.Failure;
                     }
-                case State.Success:
+                case ENodeState.Success:
                     if (restartOnSuccess)
                     {
                         iterationCount++;
                         if (iterationCount >= maxRepeats && maxRepeats > 0)
-                            return State.Success;
-                        return State.Running;
+                            return ENodeState.Success;
+                        return ENodeState.Running;
                     }
                     else
                     {
-                        return State.Success;
+                        return ENodeState.Success;
                     }
             }
 
-            return State.Running;
+            return ENodeState.Running;
         }
     }
 }

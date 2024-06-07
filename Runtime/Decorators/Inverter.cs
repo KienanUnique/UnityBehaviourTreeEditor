@@ -13,21 +13,21 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
-            if (child == null) return State.Failure;
+            if (child == null) return ENodeState.Failure;
 
             switch (child.Update())
             {
-                case State.Running:
-                    return State.Running;
-                case State.Failure:
-                    return State.Success;
-                case State.Success:
-                    return State.Failure;
+                case ENodeState.Running:
+                    return ENodeState.Running;
+                case ENodeState.Failure:
+                    return ENodeState.Success;
+                case ENodeState.Success:
+                    return ENodeState.Failure;
             }
 
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }

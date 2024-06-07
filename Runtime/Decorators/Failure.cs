@@ -13,12 +13,12 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
-            if (child == null) return State.Failure;
+            if (child == null) return ENodeState.Failure;
 
             var state = child.Update();
-            if (state == State.Success) return State.Failure;
+            if (state == ENodeState.Success) return ENodeState.Failure;
             return state;
         }
     }

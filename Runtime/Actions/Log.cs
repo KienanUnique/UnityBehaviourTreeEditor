@@ -17,10 +17,10 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             Debug.Log($"{message.Value}");
-            return State.Success;
+            return ENodeState.Success;
         }
     }
 }

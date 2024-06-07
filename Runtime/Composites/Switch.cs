@@ -18,7 +18,7 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             if (interruptable)
             {
@@ -28,7 +28,7 @@ namespace TheKiwiCoder
             }
 
             if (currentIndex < children.Count) return children[currentIndex].Update();
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }

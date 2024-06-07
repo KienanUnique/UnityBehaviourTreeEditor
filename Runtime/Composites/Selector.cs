@@ -16,7 +16,7 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             for (var i = current; i < children.Count; ++i)
             {
@@ -25,16 +25,16 @@ namespace TheKiwiCoder
 
                 switch (child.Update())
                 {
-                    case State.Running:
-                        return State.Running;
-                    case State.Success:
-                        return State.Success;
-                    case State.Failure:
+                    case ENodeState.Running:
+                        return ENodeState.Running;
+                    case ENodeState.Success:
+                        return ENodeState.Success;
+                    case ENodeState.Failure:
                         continue;
                 }
             }
 
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }

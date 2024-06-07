@@ -7,43 +7,43 @@ namespace TheKiwiCoder
     [Serializable]
     public class Parallel : CompositeNode
     {
-        private List<State> childrenLeftToExecute = new();
+        private List<ENodeState> childrenLeftToExecute = new();
 
         protected override void OnStart()
         {
             childrenLeftToExecute.Clear();
-            children.ForEach(a => { childrenLeftToExecute.Add(State.Running); });
+            children.ForEach(a => { childrenLeftToExecute.Add(ENodeState.Running); });
         }
 
         protected override void OnStop()
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var stillRunning = false;
             for (var i = 0; i < childrenLeftToExecute.Count(); ++i)
-                if (childrenLeftToExecute[i] == State.Running)
+                if (childrenLeftToExecute[i] == ENodeState.Running)
                 {
                     var status = children[i].Update();
-                    if (status == State.Failure)
+                    if (status == ENodeState.Failure)
                     {
                         AbortRunningChildren();
-                        return State.Failure;
+                        return ENodeState.Failure;
                     }
 
-                    if (status == State.Running) stillRunning = true;
+                    if (status == ENodeState.Running) stillRunning = true;
 
                     childrenLeftToExecute[i] = status;
                 }
 
-            return stillRunning ? State.Running : State.Success;
+            return stillRunning ? ENodeState.Running : ENodeState.Success;
         }
 
         private void AbortRunningChildren()
         {
             for (var i = 0; i < childrenLeftToExecute.Count(); ++i)
-                if (childrenLeftToExecute[i] == State.Running)
+                if (childrenLeftToExecute[i] == ENodeState.Running)
                     children[i].Abort();
         }
     }

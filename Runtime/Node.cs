@@ -1,4 +1,5 @@
 using System;
+using TheKiwiCoder.Context;
 using UnityEngine;
 
 namespace TheKiwiCoder
@@ -6,14 +7,14 @@ namespace TheKiwiCoder
     [Serializable]
     public abstract class Node
     {
-        public enum State
+        public enum ENodeState
         {
             Running,
             Failure,
             Success
         }
 
-        [HideInInspector] public State state = State.Running;
+        [HideInInspector] public ENodeState state = ENodeState.Running;
         [HideInInspector] public bool started;
         [HideInInspector] public string guid = Guid.NewGuid().ToString();
         [HideInInspector] public Vector2 position;
@@ -23,14 +24,14 @@ namespace TheKiwiCoder
         [Tooltip("When enabled, the nodes OnDrawGizmos will be invoked")]
         public bool drawGizmos;
 
-        [HideInInspector] public Context context;
+        [NonSerialized] public IContext context;
 
-        public virtual void OnInit()
+        public virtual void OnInitialize()
         {
             // Nothing to do here
         }
 
-        public State Update()
+        public ENodeState Update()
         {
             if (!started)
             {
@@ -40,7 +41,7 @@ namespace TheKiwiCoder
 
             state = OnUpdate();
 
-            if (state != State.Running)
+            if (state != ENodeState.Running)
             {
                 OnStop();
                 started = false;
@@ -54,7 +55,7 @@ namespace TheKiwiCoder
             BehaviourTree.Traverse(this, node =>
             {
                 node.started = false;
-                node.state = State.Running;
+                node.state = ENodeState.Running;
                 node.OnStop();
             });
         }
@@ -65,7 +66,7 @@ namespace TheKiwiCoder
 
         protected abstract void OnStart();
         protected abstract void OnStop();
-        protected abstract State OnUpdate();
+        protected abstract ENodeState OnUpdate();
 
         protected virtual void Log(string message)
         {

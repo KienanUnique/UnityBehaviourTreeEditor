@@ -177,13 +177,13 @@ namespace TheKiwiCoder
             if (Application.isPlaying)
                 switch (node.state)
                 {
-                    case Node.State.Running:
+                    case Node.ENodeState.Running:
                         if (node.started) AddToClassList("running");
                         break;
-                    case Node.State.Failure:
+                    case Node.ENodeState.Failure:
                         AddToClassList("failure");
                         break;
-                    case Node.State.Success:
+                    case Node.ENodeState.Success:
                         AddToClassList("success");
                         break;
                 }

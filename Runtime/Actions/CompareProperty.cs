@@ -15,16 +15,16 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var source = pair.value;
             var destination = pair.key;
 
             if (source != null && destination != null)
                 if (destination.Equals(source))
-                    return State.Success;
+                    return ENodeState.Success;
 
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }

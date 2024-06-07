@@ -17,7 +17,7 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var child = children[current];
             return child.Update();

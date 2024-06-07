@@ -16,9 +16,9 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
-            return State.Success;
+            return ENodeState.Success;
         }
     }
 }

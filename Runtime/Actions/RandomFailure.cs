@@ -18,11 +18,11 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             var value = Random.value;
-            if (value > chanceOfFailure) return State.Failure;
-            return State.Success;
+            if (value > chanceOfFailure) return ENodeState.Failure;
+            return ENodeState.Success;
         }
     }
 }

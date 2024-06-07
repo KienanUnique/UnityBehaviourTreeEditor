@@ -16,11 +16,11 @@ namespace TheKiwiCoder
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             if (child != null)
                 return child.Update();
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }

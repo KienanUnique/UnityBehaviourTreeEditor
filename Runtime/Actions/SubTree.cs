@@ -11,7 +11,7 @@ namespace TheKiwiCoder
 
         [HideInInspector] public BehaviourTree treeInstance;
 
-        public override void OnInit()
+        public override void OnInitialize()
         {
             if (treeAsset)
             {
@@ -22,17 +22,17 @@ namespace TheKiwiCoder
 
         protected override void OnStart()
         {
-            if (treeInstance) treeInstance.treeState = State.Running;
+            if (treeInstance) treeInstance.treeState = ENodeState.Running;
         }
 
         protected override void OnStop()
         {
         }
 
-        protected override State OnUpdate()
+        protected override ENodeState OnUpdate()
         {
             if (treeInstance) return treeInstance.Update();
-            return State.Failure;
+            return ENodeState.Failure;
         }
     }
 }
