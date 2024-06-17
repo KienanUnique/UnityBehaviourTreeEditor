@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TheKiwiCoder;
 using TheKiwiCoder.Context;
 using UnityEngine;
+using Zenject;
 
 namespace TheKiwiCoder
 {
@@ -17,7 +17,9 @@ namespace TheKiwiCoder
 
         // These values override the keys in the blackboard
         public List<BlackboardKeyValuePair> blackboardOverrides = new();
-        
+
+        [InjectOptional] private DiContainer _container;
+
         private BehaviourTree _runtimeTree;
 
         public BehaviourTree RuntimeTree => _runtimeTree != null ? _runtimeTree : behaviourTree;
@@ -26,20 +28,34 @@ namespace TheKiwiCoder
         {
             var isValid = ValidateTree();
             if (!isValid)
-                _runtimeTree = null;
-            else
             {
-                _runtimeTree = behaviourTree.Clone();
-                _runtimeTree.Bind(context);
-
-                ApplyBlackboardOverrides();
+                _runtimeTree = null;
+                return;
             }
+
+            _runtimeTree = behaviourTree.Clone();
+            _runtimeTree.Bind(context);
+
+            foreach (var node in _runtimeTree.nodes)
+            {
+                _container.Inject(node);
+            }
+
+            ApplyBlackboardOverrides();
         }
 
         public void Execute()
         {
-            if (_runtimeTree) 
+            if (_runtimeTree)
                 _runtimeTree.Update();
+        }
+
+        public void Reset()
+        {
+            if (_runtimeTree == null)
+                return;
+
+            _runtimeTree.rootNode.Abort();
         }
 
         private void OnDrawGizmosSelected()

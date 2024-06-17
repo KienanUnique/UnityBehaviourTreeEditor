@@ -6,5 +6,6 @@ namespace TheKiwiCoder
     {
         void Initialize(IContext context);
         void Execute();
+        void Reset();
     }
 }

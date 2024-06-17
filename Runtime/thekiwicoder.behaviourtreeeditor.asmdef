@@ -1,3 +1,16 @@
 {
-  "name": "thekiwicoder.behaviourtreeeditor"
+    "name": "thekiwicoder.behaviourtreeeditor",
+    "rootNamespace": "",
+    "references": [
+        "Zenject"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
