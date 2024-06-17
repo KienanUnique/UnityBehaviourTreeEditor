@@ -1,72 +1,69 @@
 using System;
 using UnityEngine;
 
-namespace TheKiwiCoder
+[Serializable]
+public abstract class BlackboardKey : ISerializationCallbackReceiver
 {
-    [Serializable]
-    public abstract class BlackboardKey : ISerializationCallbackReceiver
+    public string name;
+    public string typeName;
+    public Type underlyingType;
+
+    public BlackboardKey(Type underlyingType)
     {
-        public string name;
-        public string typeName;
-        public Type underlyingType;
+        this.underlyingType = underlyingType;
+        typeName = this.underlyingType.FullName;
+    }
 
-        public BlackboardKey(Type underlyingType)
+    public void OnBeforeSerialize()
+    {
+        typeName = underlyingType.AssemblyQualifiedName;
+    }
+
+    public void OnAfterDeserialize()
+    {
+        underlyingType = Type.GetType(typeName);
+    }
+
+    public abstract void CopyFrom(BlackboardKey key);
+    public abstract bool Equals(BlackboardKey key);
+
+    public static BlackboardKey CreateKey(Type type)
+    {
+        return Activator.CreateInstance(type) as BlackboardKey;
+    }
+}
+
+[Serializable]
+public abstract class BlackboardKey<T> : BlackboardKey
+{
+    public T value;
+
+    public BlackboardKey() : base(typeof(T))
+    {
+    }
+
+    public override string ToString()
+    {
+        return $"{name} : {value}";
+    }
+
+    public override void CopyFrom(BlackboardKey key)
+    {
+        if (key.underlyingType == underlyingType)
         {
-            this.underlyingType = underlyingType;
-            typeName = this.underlyingType.FullName;
-        }
-
-        public void OnBeforeSerialize()
-        {
-            typeName = underlyingType.AssemblyQualifiedName;
-        }
-
-        public void OnAfterDeserialize()
-        {
-            underlyingType = Type.GetType(typeName);
-        }
-
-        public abstract void CopyFrom(BlackboardKey key);
-        public abstract bool Equals(BlackboardKey key);
-
-        public static BlackboardKey CreateKey(Type type)
-        {
-            return Activator.CreateInstance(type) as BlackboardKey;
+            var other = key as BlackboardKey<T>;
+            value = other.value;
         }
     }
 
-    [Serializable]
-    public abstract class BlackboardKey<T> : BlackboardKey
+    public override bool Equals(BlackboardKey key)
     {
-        public T value;
-
-        public BlackboardKey() : base(typeof(T))
+        if (key.underlyingType == underlyingType)
         {
+            var other = key as BlackboardKey<T>;
+            return value.Equals(other.value);
         }
 
-        public override string ToString()
-        {
-            return $"{name} : {value}";
-        }
-
-        public override void CopyFrom(BlackboardKey key)
-        {
-            if (key.underlyingType == underlyingType)
-            {
-                var other = key as BlackboardKey<T>;
-                value = other.value;
-            }
-        }
-
-        public override bool Equals(BlackboardKey key)
-        {
-            if (key.underlyingType == underlyingType)
-            {
-                var other = key as BlackboardKey<T>;
-                return value.Equals(other.value);
-            }
-
-            return false;
-        }
+        return false;
     }
 }

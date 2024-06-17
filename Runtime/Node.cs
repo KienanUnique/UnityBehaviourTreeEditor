@@ -1,76 +1,73 @@
 using System;
-using TheKiwiCoder.Context;
+using Context;
 using UnityEngine;
 
-namespace TheKiwiCoder
+[Serializable]
+public abstract class Node
 {
-    [Serializable]
-    public abstract class Node
+    public enum ENodeState
     {
-        public enum ENodeState
+        Running,
+        Failure,
+        Success
+    }
+
+    [HideInInspector] public ENodeState state = ENodeState.Running;
+    [HideInInspector] public bool started;
+    [HideInInspector] public string guid = Guid.NewGuid().ToString();
+    [HideInInspector] public Vector2 position;
+    [HideInInspector] public Blackboard blackboard;
+    [TextArea] public string description;
+
+    [Tooltip("When enabled, the nodes OnDrawGizmos will be invoked")]
+    public bool drawGizmos;
+
+    [NonSerialized] public IContext context;
+
+    public virtual void OnInitialize()
+    {
+        // Nothing to do here
+    }
+
+    public ENodeState Update()
+    {
+        if (!started)
         {
-            Running,
-            Failure,
-            Success
+            OnStart();
+            started = true;
         }
 
-        [HideInInspector] public ENodeState state = ENodeState.Running;
-        [HideInInspector] public bool started;
-        [HideInInspector] public string guid = Guid.NewGuid().ToString();
-        [HideInInspector] public Vector2 position;
-        [HideInInspector] public Blackboard blackboard;
-        [TextArea] public string description;
+        state = OnUpdate();
 
-        [Tooltip("When enabled, the nodes OnDrawGizmos will be invoked")]
-        public bool drawGizmos;
-
-        [NonSerialized] public IContext context;
-
-        public virtual void OnInitialize()
+        if (state != ENodeState.Running)
         {
-            // Nothing to do here
+            OnStop();
+            started = false;
         }
 
-        public ENodeState Update()
+        return state;
+    }
+
+    public void Abort()
+    {
+        BehaviourTree.Traverse(this, node =>
         {
-            if (!started)
-            {
-                OnStart();
-                started = true;
-            }
+            node.started = false;
+            node.state = ENodeState.Running;
+            node.OnStop();
+        });
+    }
 
-            state = OnUpdate();
+    public virtual void OnDrawGizmos()
+    {
+    }
 
-            if (state != ENodeState.Running)
-            {
-                OnStop();
-                started = false;
-            }
+    protected abstract void OnStart();
+    protected abstract void OnStop();
+    protected abstract ENodeState OnUpdate();
 
-            return state;
-        }
-
-        public void Abort()
-        {
-            BehaviourTree.Traverse(this, node =>
-            {
-                node.started = false;
-                node.state = ENodeState.Running;
-                node.OnStop();
-            });
-        }
-
-        public virtual void OnDrawGizmos()
-        {
-        }
-
-        protected abstract void OnStart();
-        protected abstract void OnStop();
-        protected abstract ENodeState OnUpdate();
-
-        protected virtual void Log(string message)
-        {
-            Debug.Log($"[{GetType()}]{message}");
-        }
+    protected virtual void Log(string message)
+    {
+        Debug.Log($"[{GetType()}]{message}");
     }
 }

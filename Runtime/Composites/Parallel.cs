@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TheKiwiCoder
+namespace Composites
 {
     [Serializable]
     public class Parallel : CompositeNode

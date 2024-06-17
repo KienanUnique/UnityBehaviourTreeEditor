@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TheKiwiCoder
+namespace Decorators
 {
     [Serializable]
     public class Timeout : DecoratorNode

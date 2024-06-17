@@ -1,9 +1,6 @@
 using System;
 
-namespace TheKiwiCoder
+[Serializable]
+public abstract class ActionNode : Node
 {
-    [Serializable]
-    public abstract class ActionNode : Node
-    {
-    }
 }

@@ -15,7 +15,7 @@ namespace TheKiwiCoder
         private const string sPropRootNode = nameof(BehaviourTree.rootNode);
         private const string sPropNodes = nameof(BehaviourTree.nodes);
         private const string sPropBlackboard = nameof(BehaviourTree.blackboard);
-        private const string sPropBlackboardKeys = nameof(TheKiwiCoder.Blackboard.keys);
+        private const string sPropBlackboardKeys = nameof(global::Blackboard.keys);
         private const string sPropGuid = nameof(Node.guid);
         private const string sPropChild = nameof(DecoratorNode.child);
         private const string sPropChildren = nameof(CompositeNode.children);

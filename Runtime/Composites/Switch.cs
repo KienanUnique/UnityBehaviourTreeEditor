@@ -1,6 +1,6 @@
 using System;
 
-namespace TheKiwiCoder
+namespace Composites
 {
     [Serializable]
     public class Switch : CompositeNode

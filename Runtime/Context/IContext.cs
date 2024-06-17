@@ -1,4 +1,4 @@
-namespace TheKiwiCoder.Context
+namespace Context
 {
     public interface IContext
     {

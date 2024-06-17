@@ -1,8 +1,4 @@
-using System;
-using UnityEngine;
-using UnityEngine.AI;
-
-namespace TheKiwiCoder
+namespace Actions
 {
     // [Serializable]
     // public class MoveToPosition : ActionNode

@@ -1,44 +1,41 @@
 using System;
 using UnityEngine;
 
-namespace TheKiwiCoder
+[Serializable]
+public class NodeProperty
 {
-    [Serializable]
-    public class NodeProperty
+    [SerializeReference] public BlackboardKey reference;
+}
+
+[Serializable]
+public class NodeProperty<T> : NodeProperty
+{
+    public T defaultValue;
+    private BlackboardKey<T> _typedKey;
+
+    private BlackboardKey<T> typedKey
     {
-        [SerializeReference] public BlackboardKey reference;
+        get
+        {
+            if (_typedKey == null && reference != null) _typedKey = reference as BlackboardKey<T>;
+            return _typedKey;
+        }
     }
 
-    [Serializable]
-    public class NodeProperty<T> : NodeProperty
+    public T Value
     {
-        public T defaultValue;
-        private BlackboardKey<T> _typedKey;
-
-        private BlackboardKey<T> typedKey
+        set
         {
-            get
-            {
-                if (_typedKey == null && reference != null) _typedKey = reference as BlackboardKey<T>;
-                return _typedKey;
-            }
+            if (typedKey != null)
+                typedKey.value = value;
+            else
+                defaultValue = value;
         }
-
-        public T Value
+        get
         {
-            set
-            {
-                if (typedKey != null)
-                    typedKey.value = value;
-                else
-                    defaultValue = value;
-            }
-            get
-            {
-                if (typedKey != null)
-                    return typedKey.value;
-                return defaultValue;
-            }
+            if (typedKey != null)
+                return typedKey.value;
+            return defaultValue;
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace TheKiwiCoder
+namespace Actions
 {
     [Serializable]
     public class SetProperty : ActionNode

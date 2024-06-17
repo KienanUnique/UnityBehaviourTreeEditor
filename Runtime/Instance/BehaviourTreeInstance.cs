@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using TheKiwiCoder.Context;
+using Actions;
+using Context;
 using UnityEngine;
 using Zenject;
 
-namespace TheKiwiCoder
+namespace Instance
 {
     public class BehaviourTreeInstance : MonoBehaviour, IBehaviourTreeInstance
     {

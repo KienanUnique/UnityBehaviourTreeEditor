@@ -1,7 +1,7 @@
 using System;
 using Random = UnityEngine.Random;
 
-namespace TheKiwiCoder
+namespace Composites
 {
     [Serializable]
     public class RandomSelector : CompositeNode

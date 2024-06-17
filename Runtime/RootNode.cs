@@ -1,26 +1,23 @@
 using System;
 using UnityEngine;
 
-namespace TheKiwiCoder
+[Serializable]
+public class RootNode : Node
 {
-    [Serializable]
-    public class RootNode : Node
+    [SerializeReference] [HideInInspector] public Node child;
+
+    protected override void OnStart()
     {
-        [SerializeReference] [HideInInspector] public Node child;
+    }
 
-        protected override void OnStart()
-        {
-        }
+    protected override void OnStop()
+    {
+    }
 
-        protected override void OnStop()
-        {
-        }
-
-        protected override ENodeState OnUpdate()
-        {
-            if (child != null)
-                return child.Update();
-            return ENodeState.Failure;
-        }
+    protected override ENodeState OnUpdate()
+    {
+        if (child != null)
+            return child.Update();
+        return ENodeState.Failure;
     }
 }

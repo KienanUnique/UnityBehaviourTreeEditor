@@ -1,6 +1,6 @@
 {
     "name": "thekiwicoder.behaviourtreeeditor",
-    "rootNamespace": "",
+    "rootNamespace": "BehaviourTree",
     "references": [
         "Zenject"
     ],

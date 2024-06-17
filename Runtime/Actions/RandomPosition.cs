@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace TheKiwiCoder
+namespace Actions
 {
     [Serializable]
     public class RandomPosition : ActionNode

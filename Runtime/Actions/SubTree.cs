@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TheKiwiCoder
+namespace Actions
 {
     [Serializable]
     public class SubTree : ActionNode

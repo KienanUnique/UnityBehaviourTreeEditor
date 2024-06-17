@@ -1,6 +1,6 @@
 using System;
 
-namespace TheKiwiCoder
+namespace Decorators
 {
     [Serializable]
     public class Inverter : DecoratorNode

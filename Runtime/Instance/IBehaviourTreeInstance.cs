@@ -1,6 +1,6 @@
-using TheKiwiCoder.Context;
+using Context;
 
-namespace TheKiwiCoder
+namespace Instance
 {
     public interface IBehaviourTreeInstance
     {
