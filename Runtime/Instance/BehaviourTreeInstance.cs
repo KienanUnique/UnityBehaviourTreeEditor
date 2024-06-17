@@ -35,12 +35,13 @@ namespace Instance
             }
 
             _runtimeTree = behaviourTree.Clone();
-            _runtimeTree.Bind(context);
 
             foreach (var node in _runtimeTree.nodes)
             {
                 _container.Inject(node);
             }
+            
+            _runtimeTree.Bind(context);
 
             ApplyBlackboardOverrides();
         }
