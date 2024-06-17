@@ -9,6 +9,10 @@
     "ai",
     "ai behaviour tree"
   ],
+  "author": {
+    "name": "Kienan Unique",
+    "email": "gizatullinakram@gmail.com"
+  },
   "samples": [
     {
       "displayName": "Random Walk",
